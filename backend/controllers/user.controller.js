@@ -1,3 +1,4 @@
+import cloudinary from "../lib/cloudinary"
 import User from "../models/user.model"
 
 export const getSuggestedConnection = async(req,res)=>{
@@ -33,3 +34,46 @@ export const getPublicProfile = async(req,res)=>{
         res.status(500).json({message:"Internal Server Error"})
     }
 }
+
+
+export const updateProfile = async(req,res)=>{
+    try {
+        const allowedFields =[
+        "name",
+        "username",
+        "headline",
+        "about" ,
+        "location",
+        "profilePicture",
+        "bannerlmg",
+        "skills",
+        "experience",
+        "education"
+    ]
+    const updatedData={}
+
+    for(const field of allowedFields){
+        if(req.body[field]){
+            updatedData[field]= req.body[field];
+        }
+    }
+
+    if(req.body.profilePicture){
+        const result = await cloudinary.uploader.upload(req.body.profilePicture)
+        updatedData.profilePicture = result.secure_url
+    }
+    if(req.body.bannerImg){
+        const result = await cloudinary.uploader.upload(req.body.bannerImg)
+        updatedData.bannerImg = result.secure_url
+    }
+
+    const user = await User.findByIdAndUpdate(req.user._id,{
+        $set:updatedData},{new: true}).select("-password")
+
+    res.status(201).josn(user)
+    } catch (error) {
+        console.log("Error in updateProfile",error)
+        res.status(500).json({message:"Internal Server Error"})
+    }
+}
+
