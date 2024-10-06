@@ -40,7 +40,7 @@ export const signup = async(req, res) => {
 
         await newUser.save()
 
-        const token = jwt.sign({id: newUser._id}, process.env.JWT_SECRET, {
+        const token = jwt.sign({userId: newUser._id}, process.env.JWT_SECRET, {
             expiresIn: '7d'
         })
       
@@ -109,3 +109,12 @@ export const logout = (req, res) => {
     }
 }       
 
+
+export const getCurrentUser = (req,res) =>{
+    try{
+        res.json(req.user)
+    }catch(err){
+        console.log(err)
+        res.status(500).json({message:"Internal Server Error"})
+    }
+}
