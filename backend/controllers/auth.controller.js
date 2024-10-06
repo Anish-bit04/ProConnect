@@ -51,7 +51,7 @@ export const signup = async(req, res) => {
             secure:process.env.NODE_ENV === "production"
         })
 
-        res.status(200).json({msg: "User created"})
+        res.status(201).json({msg: "User created"})
 
     const profileUrl = process.env.CLIENT_URL + "/profile/" + newUser.username;
 
@@ -63,17 +63,49 @@ export const signup = async(req, res) => {
 		}
 
     }catch(err){    
-        console.log('signup')
-        console.log(err.message)
+        console.log("Error in Signup",err.message)
         res.status(500).send("Internal Server Error")
     }
 }
 
-export const login = (req, res) => {
-    res.send("login")
+export const login = async(req, res) => {
+    try{
+        const {username,password} = req.body;
+        const user = User.findOne({username})
+        if(!user){
+            return res.status(400).json({message:"Email doesn't exist"})
+        }
+    
+        const isMatch = await bcrypt.compare(password,user.password)
+        if(!isMatch){
+            return res.status(400).json({message:"Invalid credentials"})
+        }
+    
+        const token = jwt.sign({userId:user._id},process.env.JWT_SECRET,{expiresIn:'7d'})
+    
+        await res.cookie("jwt-proconnect",token,{
+            httpOnly:true,
+            maxAge: 7*24*60*60*1000,
+            sameSite: "strict",
+            secure:process.env.NODE_ENV === "production"
+        })
+        res.status(201).json({
+            message:"Logged In Successfully"
+        })
+    }catch(err){
+        console.log("Error in Login:",err.message)
+        res.status(500).json({message:"Internal Server Error"})
+    }
+
 }   
 
 export const logout = (req, res) => { 
-    res.send("logout")
+    try{
+        res.clearCookie("jwt-proconnect")
+        res.send("logout")
+    }catch(err){
+        console.log("error in logout:",err.message)
+        res.status(500).json({message:'Internal Server Error'})
+    }
 }       
 
