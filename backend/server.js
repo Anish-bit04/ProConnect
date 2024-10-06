@@ -11,7 +11,7 @@ app.use(express.json())
 
 const PORT= process.env.PORT || 4000
 
-app.use('/api/v2/auth',authRoutes)
+app.use('/api/v1/auth',authRoutes)
 
 
 app.listen(PORT, () => {
