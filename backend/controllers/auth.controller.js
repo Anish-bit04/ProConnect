@@ -58,12 +58,11 @@ export const signup = async(req, res) => {
 		try {
 			await sendWelcomeEmail(newUser.email, newUser.name, profileUrl);
 		} catch (emailError) {
-            console.log('inisde mail')
 			console.error("Error sending welcome Email", emailError);
 		}
 
     }catch(err){    
-        console.log("Error in Signup",err.message)
+        console.log("Error in Signup",err)
         res.status(500).send("Internal Server Error")
     }
 }
@@ -71,7 +70,7 @@ export const signup = async(req, res) => {
 export const login = async(req, res) => {
     try{
         const {username,password} = req.body;
-        const user = User.findOne({username})
+        const user = await User.findOne({username})
         if(!user){
             return res.status(400).json({message:"Email doesn't exist"})
         }
@@ -89,11 +88,11 @@ export const login = async(req, res) => {
             sameSite: "strict",
             secure:process.env.NODE_ENV === "production"
         })
-        res.status(201).json({
+       return res.status(201).json({
             message:"Logged In Successfully"
         })
     }catch(err){
-        console.log("Error in Login:",err.message)
+        console.log("Error in Login:",err)
         res.status(500).json({message:"Internal Server Error"})
     }
 
