@@ -4,6 +4,7 @@ import dotenv from "dotenv"
 import authRoutes from "./routes/auth.route.js"
 import userRoutes from "./routes/user.route.js"
 import postsRoutes from "./routes/posts.route.js"
+import notificationsRoutes from "./routes/notifications.route.js"
 
 import { connectDb } from "./lib/db.js"
 import cookieParser from "cookie-parser"
@@ -19,6 +20,7 @@ const PORT= process.env.PORT || 4000
 app.use('/api/v1/auth',authRoutes)
 app.use('/api/v1/user',userRoutes)
 app.use('/api/v1/posts',postsRoutes)
+app.use('/api/v1/notifications',notificationsRoutes)
 
 
 app.listen(PORT, () => {
