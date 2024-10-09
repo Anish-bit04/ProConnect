@@ -10,10 +10,9 @@ const LoginForm = () => {
 	const queryClient = useQueryClient();
 
 	const { mutate: loginMutation, isLoading } = useMutation({
-		mutationFn: () => axiosInstance.post("/auth/login"),
+		mutationFn: (userData) => axiosInstance.post("/auth/login", userData),
 		onSuccess: () => {
-            toast.success("Account created successfully");
-			// queryClient.invalidateQueries({ queryKey: ["authUser"] });
+			queryClient.invalidateQueries({ queryKey: ["authUser"] });
 		},
 		onError: (err) => {
 			toast.error(err.response.data.message || "Something went wrong");

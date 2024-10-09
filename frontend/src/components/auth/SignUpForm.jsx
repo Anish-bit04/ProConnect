@@ -4,7 +4,7 @@ import { axiosInstance } from "../../lib/axios.js";
 import { toast } from "react-hot-toast";
 import { Loader } from "lucide-react";
 
-const SignUpForm = () => { 
+const SignUpForm = () => {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [username, setUsername] = useState("");
@@ -13,13 +13,13 @@ const SignUpForm = () => {
 	const queryClient = useQueryClient();
 
 	const { mutate: signUpMutation, isLoading } = useMutation({
-		mutationFn: async () => {
-			const res = await axiosInstance.post("/auth/signup");
+		mutationFn: async (data) => {
+			const res = await axiosInstance.post("/auth/signup", data);
 			return res.data;
 		},
 		onSuccess: () => {
 			toast.success("Account created successfully");
-			// queryClient.invalidateQueries({ queryKey: ["authUser"] }); //invalidateQueries is basically re-run 
+			queryClient.invalidateQueries({ queryKey: ["authUser"] });
 		},
 		onError: (err) => {
 			toast.error(err.response.data.message || "Something went wrong");
