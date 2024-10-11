@@ -6,7 +6,7 @@ export const getFeedPosts = async (req, res) => {
     try {
 
         // used populate method to get auther details and comments people details
-        const posts = await Post.find({auther:{$in:req.user.connections}})
+        const posts = await Post.find({auther:{$in:[...req.user.connections, req.user._id]}})
         .populate("author","name username profilePicture headline")
         .populate("comments.user","name username profilePicture headline")
         .sort({createdAt:-1})
