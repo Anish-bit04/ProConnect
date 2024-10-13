@@ -15,7 +15,7 @@ const Navbar = () => {
 
 	const { data: connectionRequests } = useQuery({
 		queryKey: ["connectionRequests"],
-		queryFn: async () => axiosInstance.get("/connection/requests"),
+		queryFn: async () => axiosInstance.get("/connections/requests"),
 		enabled: !!authUser,
 	});
 

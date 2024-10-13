@@ -27,7 +27,7 @@ app.use('/api/v1/auth',authRoutes)
 app.use('/api/v1/user',userRoutes)
 app.use('/api/v1/posts',postsRoutes)
 app.use('/api/v1/notifications',notificationsRoutes)
-app.use('/api/v1/connection',connectionRoutes)
+app.use('/api/v1/connections',connectionRoutes)
 
 
 app.listen(PORT, () => {

@@ -19,12 +19,12 @@ const ProfilePage = () => {
 
 	const { data: userProfile, isLoading: isUserProfileLoading } = useQuery({
 		queryKey: ["userProfile", username],
-		queryFn: () => axiosInstance.get(`/users/${username}`),
+		queryFn: () => axiosInstance.get(`/user/${username}`),
 	});
 
 	const { mutate: updateProfile } = useMutation({
 		mutationFn: async (updatedData) => {
-			await axiosInstance.put("/users/profile", updatedData);
+			await axiosInstance.put("/user/profile", updatedData);
 		},
 		onSuccess: () => {
 			toast.success("Profile updated successfully");

@@ -12,9 +12,9 @@ export const getSuggestedConnection = async(req,res)=>{
             }
         })
         .select('name username profilePicture headline')
-        .limit(4)
+        .limit(8)
 
-        res.staus(201).json(suggestedUser)
+        res.status(201).json(suggestedUser)
     }catch(err){
         console.log('error in getSuggestedConnection user controller',err)
         res.status(500).json({message:"Internal Server Error"})

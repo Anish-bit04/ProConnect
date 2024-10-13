@@ -12,7 +12,7 @@ const HomePage = () => {
 	const { data: recommendedUsers } = useQuery({
 		queryKey: ["recommendedUsers"],
 		queryFn: async () => {
-			const res = await axiosInstance.get("/users/suggestions");
+			const res = await axiosInstance.get("/user/suggestions");
 			return res.data;
 		},
 	});

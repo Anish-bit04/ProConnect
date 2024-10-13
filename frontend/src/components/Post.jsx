@@ -4,7 +4,7 @@ import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
 import { Link, useParams } from "react-router-dom";
 import { Loader, MessageCircle, Send, Share2, ThumbsUp, Trash2 } from "lucide-react";
-import { formatDistanceToNow } from "date- fns";
+import { formatDistanceToNow } from "date-fns";
 
 import PostAction from "./PostAction";
 
